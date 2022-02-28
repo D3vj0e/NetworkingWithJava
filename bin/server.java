@@ -6,8 +6,8 @@ public class server{
     public static void main(String[] argv){
         try{
             ServerSocket createServerSocket = new ServerSocket(port);
-            Socket server = createServerSocket.accept();
             System.out.println("Server was creating....");
+            Socket server = createServerSocket.accept();
             DataInputStream dataInput = new DataInputStream(server.getInputStream());
             DataOutputStream send = new DataOutputStream(server.getOutputStream());
             send.writeUTF("Hello from server");
