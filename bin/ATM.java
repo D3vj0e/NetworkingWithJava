@@ -1,7 +1,5 @@
 package bin;
-import java.io.DataOutputStream;
-import java.io.DataInputStream;
-import java.net.Socket;
+import bin.packages.PackATM;
 import javax.swing.*;
 import java.awt.*;
 public class ATM extends JFrame{
@@ -29,6 +27,7 @@ public class ATM extends JFrame{
         JTextField userName = new JTextField();
         JPasswordField userPassword = new JPasswordField();
         JButton buttonLogin = new JButton("Login");
+        JLabel loginStatus = new JLabel();
 
 
         welcomeTag.setText("WELCOME TO CHAT INSIDE BY d3vj0e");
@@ -51,9 +50,22 @@ public class ATM extends JFrame{
         panel.add(userPassword);
         panel.add(userpassword);
 
+        loginStatus.setBounds(200,260,90,30);
+        panel.add(loginStatus);
+
         buttonLogin.setBounds(200,240,90,30);
         buttonLogin.addActionListener(e->{
-
+            PackATM sendLogin = new PackATM();
+            String userNameIn = userName.getText();
+            String userPasswordIn = String.valueOf(userPassword.getPassword());
+            boolean returnStatus = sendLogin.SendLogin(userNameIn,userPasswordIn);
+            if(returnStatus) {
+                loginStatus.setForeground(Color.GREEN);
+                loginStatus.setText("good");
+            }else{
+                loginStatus.setForeground(Color.RED);
+                loginStatus.setText("bad");
+            }
         });
         panel.add(buttonLogin);
 

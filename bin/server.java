@@ -2,21 +2,22 @@ package bin;
 import java.net.*;
 import java.io.*;
 public class server{
-    private static int port = 8888;
+    private static int port = 8800;
+    private static Socket ClienSocket;
     public static void main(String[] argv){
         try{
-            ServerSocket createServerSocket = new ServerSocket(port);
-            System.out.println("Server was creating....");
-            Socket server = createServerSocket.accept();
-            DataInputStream dataInput = new DataInputStream(server.getInputStream());
-            DataOutputStream send = new DataOutputStream(server.getOutputStream());
-            send.writeUTF("Hello from server");
-            String showDataInput = (String)dataInput.readUTF();
-            System.out.println("From client : "+showDataInput);
-            server.close();
-            createServerSocket.close();
-            send.close();
-            send.close();
+            ServerSocket serverSocket = new ServerSocket(port);
+            System.out.println("server activated...");
+            ClienSocket = serverSocket.accept();
+            ObjectInputStream getArrayData = new ObjectInputStream(ClienSocket.getInputStream());
+            DataOutputStream sendResponse = new DataOutputStream(ClienSocket.getOutputStream());
+            String [] showData = (String[]) getArrayData.readObject();
+            if(showData[0].contains("checkLogin")){
+                if(showData[1].contains("admin") && showData[2].contains("admin")){
+                    sendResponse.writeBoolean(true);
+                    sendResponse.flush();
+                }
+            }
         }catch(Exception error){System.out.println(error);}
     }
 
